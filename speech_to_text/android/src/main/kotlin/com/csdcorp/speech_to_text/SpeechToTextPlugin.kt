@@ -365,7 +365,10 @@ public class SpeechToTextPlugin :
             notifyListening(isRecording = false)
             result.success(true)
             debugLog("Cancel listening done")
-        catch(){}
+        } catch (e: Exception) {
+            // Handle all exceptions
+            println("Exception caught: ${e.message}")
+        }
     }
 
     private fun locales(result: Result) {
