@@ -348,7 +348,9 @@ public class SpeechToTextPlugin :
     private fun cancelListening(result: Result) {
         try
         {
+            debugLog("Recognizer destroy")
             speechRecognizer?.destroy();
+            speechRecognizer = null;
             if (sdkVersionTooLow() || isNotInitialized() || isNotListening()) {
                 result.success(false)
                 return
@@ -661,7 +663,6 @@ public class SpeechToTextPlugin :
                         debugLog("In RecognizerIntent apply")
                         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                         putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 15000) // 15 seconds of silence
-
                         debugLog("put model")
                         val localContext = pluginContext
                         if (null != localContext) {
