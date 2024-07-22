@@ -346,22 +346,26 @@ public class SpeechToTextPlugin :
     }
 
     private fun cancelListening(result: Result) {
-        if (sdkVersionTooLow() || isNotInitialized() || isNotListening()) {
-            result.success(false)
-            return
-        }
-        debugLog("Cancel listening")
-        handler.post {
-            run {
-                speechRecognizer?.cancel()
+        try
+        {
+            speechRecognizer?.destroy();
+            if (sdkVersionTooLow() || isNotInitialized() || isNotListening()) {
+                result.success(false)
+                return
             }
-        }
-        if ( !recognizerStops ) {
-            destroyRecognizer()
-        }
-        notifyListening(isRecording = false)
-        result.success(true)
-        debugLog("Cancel listening done")
+            debugLog("Cancel listening")
+            handler.post {
+                run {
+                    speechRecognizer?.cancel()
+                }
+            }
+            if ( !recognizerStops ) {
+                destroyRecognizer()
+            }
+            notifyListening(isRecording = false)
+            result.success(true)
+            debugLog("Cancel listening done")
+        catch(){}
     }
 
     private fun locales(result: Result) {
